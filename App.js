@@ -29,6 +29,8 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
+import Slider from '@react-native-community/slider'
+
 const App: () => React$Node = () => {
   return (
     <>
@@ -36,21 +38,63 @@ const App: () => React$Node = () => {
       <SafeAreaView>
         <View style={styles.container}>
           <RateForm />
+          <TasteSlider />
+          <BodySlider />
         </View>
       </SafeAreaView>
     </>
   )
 }
 
-const RateForm = (props: Props) => {
+const TasteSlider = () => {
+  return (
+    <View style={styles.flavorSlider}>
+      <View style={styles.sliderText}>
+        <Text>酸味</Text>
+      </View>
+      <Slider
+        style={{width: "75%", height: 40}}
+        minimumValue={0}
+        maximumValue={1}
+        thumbTintColor="#000"
+        minimumTrackTintColor="#000000"
+        maximumTrackTintColor="#000000"
+        step={0.1}
+      />
+      <View style={styles.sliderText}>
+        <Text>苦味</Text>
+      </View>
+    </View>
+  )
+}
+
+const BodySlider = () => {
+  return (
+    <View style={styles.flavorSlider}>
+      <View style={styles.sliderText}>
+        <Text>ライト</Text>
+      </View>
+      <Slider
+        style={{width: "75%", height: 40}}
+        minimumValue={0}
+        maximumValue={1}
+        thumbTintColor="#000"
+        minimumTrackTintColor="#000000"
+        maximumTrackTintColor="#000000"
+        step={0.1}
+      />
+      <View style={styles.sliderText}>
+        <Text>フル</Text>
+      </View>
+    </View>
+  )
+}
+
+const RateForm = () => {
   const [rate, setRate] = useState(0)
   const onPressed = useCallback(
     (rate: number, enabled: boolean) => {
-      if (enabled) {
-        setRate(rate)
-      } else {
-        setRate(rate - 1)
-      }
+      setRate(enabled ? rate : rate - 1)
     }, [])
   return (
     <View style={styles.rateForm}>
@@ -98,8 +142,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  rateStar: {
+  flavorSlider: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 12,
   },
+  sliderText: {
+    width: 50,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center"
+  }
 })
 
 export default App
