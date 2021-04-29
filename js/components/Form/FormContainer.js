@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useRef } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -18,23 +18,49 @@ import {
 import { RateStar } from '../atoms/RateStar'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Slider from '@react-native-community/slider'
+import Carousel from 'react-native-snap-carousel'
 
 export const FormContainer = () => {
+
+  const ref = useRef()
+  const renderItem = useCallback((item, index) => {
+    return (
+      <FormItemContainer />
+    )
+  }, [])
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <ScrollView>
-          <View style={styles.container}>
-            <NameForm />
-            <RoastSlider />
-            <AromaForm />
-            <Flavor />
-            <RateForm />
-          </View>
-        </ScrollView>
+        <Carousel
+          ref={ref}
+          data={['hoge', 'hoge', 'hoge', 'hoge']}
+          renderItem={renderItem}
+          sliderWidth={480}
+          itemWidth={400}
+          inactiveSlideScale={1}
+          inactiveSlideOpacity={1}
+          activeSlideAlignment={'start'}
+          slideStyle={styles.formItemContainer}
+        />
       </SafeAreaView>
     </>
+  )
+}
+
+const FormItemContainer = () => {
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        <NameForm />
+        <RoastSlider />
+        <AromaForm />
+        <SweetAcidity />
+        <Flavor />
+        <Total />
+      </View>
+    </ScrollView>
   )
 }
 
@@ -134,6 +160,53 @@ const AromaForm = () => {
   )
 }
 
+const SweetAcidity = () => {
+  const [input, setInput] = useState('')
+  const onTextInput = useCallback((text: string) => {
+    setInput(text)
+  }, [])
+  return (
+    <View style={styles.formContainer}>
+      <Text style={styles.formTitle}>甘み</Text>
+      <Slider
+        style={{width: "100%", height: 40}}
+        minimumValue={0}
+        maximumValue={8}
+        thumbTintColor="#000"
+        minimumTrackTintColor="#000000"
+        maximumTrackTintColor="#000000"
+        step={1}
+      />
+      <Text style={styles.formTitle}>酸味</Text>
+      <Slider
+        style={{width: "100%", height: 40}}
+        minimumValue={0}
+        maximumValue={8}
+        thumbTintColor="#000"
+        minimumTrackTintColor="#000000"
+        maximumTrackTintColor="#000000"
+        step={1}
+      />
+      <Text style={styles.formTitle}>口に含んだ質感</Text>
+      <Slider
+        style={{width: "100%", height: 40}}
+        minimumValue={0}
+        maximumValue={8}
+        thumbTintColor="#000"
+        minimumTrackTintColor="#000000"
+        maximumTrackTintColor="#000000"
+        step={1}
+      />
+      <Text style={styles.formTitle}>メモ</Text>
+      <TextInput
+        style={styles.flavorTextInput}
+        onChangeText={onTextInput}
+        value={input}
+      />
+    </View>
+  )
+}
+
 const Flavor = () => {
   const [input, setInput] = useState('')
   const onTextInput = useCallback((text: string) => {
@@ -152,6 +225,26 @@ const Flavor = () => {
         step={1}
       />
       <Text style={styles.formTitle}>後味の印象度</Text>
+      <Slider
+        style={{width: "100%", height: 40}}
+        minimumValue={0}
+        maximumValue={8}
+        thumbTintColor="#000"
+        minimumTrackTintColor="#000000"
+        maximumTrackTintColor="#000000"
+        step={1}
+      />
+      <Text style={styles.formTitle}>バランス</Text>
+      <Slider
+        style={{width: "100%", height: 40}}
+        minimumValue={0}
+        maximumValue={8}
+        thumbTintColor="#000"
+        minimumTrackTintColor="#000000"
+        maximumTrackTintColor="#000000"
+        step={1}
+      />
+      <Text style={styles.formTitle}>総合評価</Text>
       <Slider
         style={{width: "100%", height: 40}}
         minimumValue={0}
@@ -241,9 +334,18 @@ const RateForm = () => {
   )
 }
 
+const Total = () => {
+  return (
+    <View style={styles.formContainer}>
+      <Text style={styles.formTitle}>合計点数</Text>
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
+    marginTop: 15,
   },
   formContainer: {
     paddingVertical: 15,
@@ -255,6 +357,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#e2e2e2',
+  },
+  formItemContainer: {
+    marginLeft: 18,
   },
   rateForm: {
     width: '100%',
