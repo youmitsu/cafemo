@@ -13,6 +13,7 @@ import {
   Switch,
   TouchableOpacity,
   Button,
+  Dimensions,
 } from 'react-native'
 
 import { RateStar } from '../atoms/RateStar'
@@ -28,6 +29,9 @@ export const FormContainer = () => {
       <FormItemContainer />
     )
   }, [])
+  const width = useMemo(() => {
+    return Dimensions.get('window').width
+  }, [])
 
   return (
     <>
@@ -37,8 +41,8 @@ export const FormContainer = () => {
           ref={ref}
           data={['hoge', 'hoge', 'hoge', 'hoge']}
           renderItem={renderItem}
-          sliderWidth={480}
-          itemWidth={400}
+          sliderWidth={width}
+          itemWidth={width*0.85}
           inactiveSlideScale={1}
           inactiveSlideOpacity={1}
           activeSlideAlignment={'start'}
@@ -345,17 +349,15 @@ const Total = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
-    marginTop: 15,
+    marginTop: 24,
   },
   formContainer: {
-    paddingVertical: 15,
-    paddingHorizontal: 12,
+    paddingVertical: 18,
+    paddingHorizontal: 14,
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    marginTop: 12,
     backgroundColor: '#fff',
-    borderWidth: 1,
     borderColor: '#e2e2e2',
   },
   formItemContainer: {

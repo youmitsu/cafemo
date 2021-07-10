@@ -20,6 +20,7 @@ import Slider from '@react-native-community/slider'
 
 import { HomeContainer } from './components/Home/HomeContainer'
 import { FormContainer } from './components/Form/FormContainer'
+import { FlatListContainer } from './components/FlatList/FlatListContainer'
 
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
@@ -33,6 +34,7 @@ const App: () => React$Node = () => {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeContainer}/>
         <Stack.Screen name="Form" component={FormContainer}/>
+        <Stack.Screen name="FlatList" component={FlatListContainer}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
